@@ -1,0 +1,99 @@
+expression market_analysis =
+		let
+		    Quelle = Csv.Document(File.Contents("C:\Users\Admin\Desktop\archive (5)\market_analysis.csv"),[Delimiter=";", Columns=14, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Höher gestufte Header" = Table.PromoteHeaders(Quelle, [PromoteAllScalars=true]),
+		    #"Geänderter Typ" = Table.TransformColumnTypes(#"Höher gestufte Header",{{"unified_id", Int64.Type}, {"month", type date}, {"zipcode", Int64.Type}, {"city", type text}, {"host_type", type text}, {"bedrooms", Int64.Type}, {"bathrooms", Int64.Type}, {"guests", Int64.Type}, {"revenue", type number}, {"openness", Int64.Type}, {"occupancy", type number}, {"nightly rate", type number}, {"lead time", type number}, {"length stay", type number}})
+		in
+		    #"Geänderter Typ"
+	lineageTag: 1fc86ef9-7fd0-4c99-84a6-2674d9ff7122
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression market_analysis_2019 =
+		let
+		    Quelle = Csv.Document(File.Contents("C:\Users\Admin\Desktop\archive (5)\market_analysis_2019.csv"),[Delimiter=";", Columns=14, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Höher gestufte Header" = Table.PromoteHeaders(Quelle, [PromoteAllScalars=true]),
+		    #"Geänderter Typ" = Table.TransformColumnTypes(#"Höher gestufte Header",{{"unified_id", type text}, {"month", type date}, {"zipcode", Int64.Type}, {"city", type text}, {"host_type", type text}, {"bedrooms", Int64.Type}, {"bathrooms", Int64.Type}, {"guests", Int64.Type}, {"revenue", type number}, {"openness", Int64.Type}, {"occupancy", type number}, {"nightly rate", type number}, {"lead time", type number}, {"length stay", type number}}),
+		    #"Der Text nach dem Trennzeichen wurde eingefügt." = Table.AddColumn(#"Geänderter Typ", "Text nach Trennzeichen", each Text.AfterDelimiter([unified_id], "R"), type text),
+		    #"Neu angeordnete Spalten" = Table.ReorderColumns(#"Der Text nach dem Trennzeichen wurde eingefügt.",{"unified_id", "Text nach Trennzeichen", "month", "zipcode", "city", "host_type", "bedrooms", "bathrooms", "guests", "revenue", "openness", "occupancy", "nightly rate", "lead time", "length stay"}),
+		    #"Entfernte Fehler" = Table.RemoveRowsWithErrors(#"Neu angeordnete Spalten", {"unified_id"}),
+		    #"Entfernte Spalten" = Table.RemoveColumns(#"Entfernte Fehler",{"unified_id"}),
+		    #"Umbenannte Spalten" = Table.RenameColumns(#"Entfernte Spalten",{{"Text nach Trennzeichen", "unified_id"}})
+		in
+		    #"Umbenannte Spalten"
+	lineageTag: 02fca899-0690-4ac4-81f0-c547ca395b76
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression sales_properties_total_zipcode_92252 =
+		let
+		    Quelle = Csv.Document(File.Contents("C:\Users\Admin\Desktop\archive (5)\sales_properties_total_zipcode_92252.csv"),[Delimiter=";", Columns=23, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Höher gestufte Header" = Table.PromoteHeaders(Quelle, [PromoteAllScalars=true]),
+		    #"Geänderter Typ" = Table.TransformColumnTypes(#"Höher gestufte Header",{{"Url", type text}, {"Zestimate", Int64.Type}, {"Price", Int64.Type}, {"Rent Zestimate", Int64.Type}, {"Days On Zillow", type text}, {"Bathrooms", Int64.Type}, {"Bedrooms", Int64.Type}, {"Living Area", Int64.Type}, {"Lot Size", type text}, {"Home Type", type text}, {"Street Address", type text}, {"City", type text}, {"Zip", Int64.Type}, {"State", type text}, {"Country", type text}, {"Broker Name", type text}, {"Has 3D Model", type text}, {"Has Image", type text}, {"Has Video", type text}, {"isZillowOwned", type text}, {"sgapt", type text}, {"statusText", type text}, {"statusType", type text}})
+		in
+		    #"Geänderter Typ"
+	lineageTag: 83947da4-04d2-4f46-88c4-2300065a380b
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
+expression sales_properties_total_zipcode_92284 =
+		let
+		    Quelle = Csv.Document(File.Contents("C:\Users\Admin\Desktop\archive (5)\sales_properties_total_zipcode_92284.csv"),[Delimiter=";", Columns=23, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Höher gestufte Header" = Table.PromoteHeaders(Quelle, [PromoteAllScalars=true]),
+		    #"Geänderter Typ" = Table.TransformColumnTypes(#"Höher gestufte Header",{{"Url", type text}, {"Zestimate", Int64.Type}, {"Price", Int64.Type}, {"Rent Zestimate", Int64.Type}, {"Days On Zillow", type text}, {"Bathrooms", Int64.Type}, {"Bedrooms", Int64.Type}, {"Living Area", Int64.Type}, {"Lot Size", type text}, {"Home Type", type text}, {"Street Address", type text}, {"City", type text}, {"Zip", Int64.Type}, {"State", type text}, {"Country", type text}, {"Broker Name", type text}, {"Has 3D Model", type text}, {"Has Image", type text}, {"Has Video", type text}, {"isZillowOwned", type text}, {"sgapt", type text}, {"statusText", type text}, {"statusType", type text}})
+		in
+		    #"Geänderter Typ"
+	lineageTag: f8956b2e-72b9-43d5-98cc-20d2fe8c3a23
+
+	annotation PBI_ResultType = Table
+
+expression sales_properties_total_zipcode_92314 =
+		let
+		    Quelle = Csv.Document(File.Contents("C:\Users\Admin\Desktop\archive (5)\sales_properties_total_zipcode_92314.csv"),[Delimiter=";", Columns=23, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Höher gestufte Header" = Table.PromoteHeaders(Quelle, [PromoteAllScalars=true]),
+		    #"Geänderter Typ" = Table.TransformColumnTypes(#"Höher gestufte Header",{{"Url", type text}, {"Zestimate", Int64.Type}, {"Price", Int64.Type}, {"Rent Zestimate", Int64.Type}, {"Days On Zillow", type text}, {"Bathrooms", Int64.Type}, {"Bedrooms", Int64.Type}, {"Living Area", Int64.Type}, {"Lot Size", type text}, {"Home Type", type text}, {"Street Address", type text}, {"City", type text}, {"Zip", Int64.Type}, {"State", type text}, {"Country", type text}, {"Broker Name", type text}, {"Has 3D Model", type text}, {"Has Image", type text}, {"Has Video", type text}, {"isZillowOwned", type text}, {"sgapt", type text}, {"statusText", type text}, {"statusType", type text}})
+		in
+		    #"Geänderter Typ"
+	lineageTag: 333311f8-0556-4d6f-ae47-b849936538f0
+
+	annotation PBI_ResultType = Table
+
+expression sales_properties_total_zipcode_92315 =
+		let
+		    Quelle = Csv.Document(File.Contents("C:\Users\Admin\Desktop\archive (5)\sales_properties_total_zipcode_92315.csv"),[Delimiter=";", Columns=23, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Höher gestufte Header" = Table.PromoteHeaders(Quelle, [PromoteAllScalars=true]),
+		    #"Geänderter Typ" = Table.TransformColumnTypes(#"Höher gestufte Header",{{"Url", type text}, {"Zestimate", Int64.Type}, {"Price", Int64.Type}, {"Rent Zestimate", Int64.Type}, {"Days On Zillow", type text}, {"Bathrooms", Int64.Type}, {"Bedrooms", Int64.Type}, {"Living Area", Int64.Type}, {"Lot Size", type text}, {"Home Type", type text}, {"Street Address", type text}, {"City", type text}, {"Zip", Int64.Type}, {"State", type text}, {"Country", type text}, {"Broker Name", type text}, {"Has 3D Model", type text}, {"Has Image", type text}, {"Has Video", type text}, {"isZillowOwned", type text}, {"sgapt", type text}, {"statusText", type text}, {"statusType", type text}})
+		in
+		    #"Geänderter Typ"
+	lineageTag: fcfa9ca6-568e-4683-9f8f-953c4c2b912d
+
+	annotation PBI_ResultType = Table
+
+expression sales_properties_with_pool_zipcode_92252 =
+		let
+		    Quelle = Csv.Document(File.Contents("C:\Users\Admin\Desktop\archive (5)\sales_properties_with_pool_zipcode_92252.csv"),[Delimiter=";", Columns=23, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Höher gestufte Header" = Table.PromoteHeaders(Quelle, [PromoteAllScalars=true]),
+		    #"Geänderter Typ" = Table.TransformColumnTypes(#"Höher gestufte Header",{{"Url", type text}, {"Zestimate", Int64.Type}, {"Price", Int64.Type}, {"Rent Zestimate", Int64.Type}, {"Days On Zillow", type text}, {"Bathrooms", Int64.Type}, {"Bedrooms", Int64.Type}, {"Living Area", Int64.Type}, {"Lot Size", type text}, {"Home Type", type text}, {"Street Address", type text}, {"City", type text}, {"Zip", Int64.Type}, {"State", type text}, {"Country", type text}, {"Broker Name", type text}, {"Has 3D Model", type text}, {"Has Image", type text}, {"Has Video", type text}, {"isZillowOwned", type text}, {"sgapt", type text}, {"statusText", type text}, {"statusType", type text}})
+		in
+		    #"Geänderter Typ"
+	lineageTag: b8e77be3-3fe0-47fc-8b57-1b9a9bd03f39
+
+	annotation PBI_ResultType = Table
+
+expression sales_properties_with_pool_zipcode_92284 =
+		let
+		    Quelle = Csv.Document(File.Contents("C:\Users\Admin\Desktop\archive (5)\sales_properties_with_pool_zipcode_92284.csv"),[Delimiter=";", Columns=23, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+		    #"Höher gestufte Header" = Table.PromoteHeaders(Quelle, [PromoteAllScalars=true]),
+		    #"Geänderter Typ" = Table.TransformColumnTypes(#"Höher gestufte Header",{{"Url", type text}, {"Zestimate", Int64.Type}, {"Price", Int64.Type}, {"Rent Zestimate", Int64.Type}, {"Days On Zillow", type text}, {"Bathrooms", Int64.Type}, {"Bedrooms", Int64.Type}, {"Living Area", Int64.Type}, {"Lot Size", type text}, {"Home Type", type text}, {"Street Address", type text}, {"City", type text}, {"Zip", Int64.Type}, {"State", type text}, {"Country", type text}, {"Broker Name", type text}, {"Has 3D Model", type text}, {"Has Image", type text}, {"Has Video", type text}, {"isZillowOwned", type text}, {"sgapt", type text}, {"statusText", type text}, {"statusType", type text}})
+		in
+		    #"Geänderter Typ"
+	lineageTag: 9555f438-16ab-4846-a6a1-d39edfc6d3f8
+
+	annotation PBI_ResultType = Table
+

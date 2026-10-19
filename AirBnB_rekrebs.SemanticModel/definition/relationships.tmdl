@@ -1,0 +1,20 @@
+relationship c3ffb243-ce3f-ddea-769b-cd2774be91e8
+	fromColumn: 'market analysis'.month
+	toColumn: Calender.Date
+
+relationship AutoDetected_45ed4280-baa1-4bb3-8555-e4d0446d6830
+	fromColumn: 'market analysis'.unified_id
+	toColumn: geolocation.unified_id
+
+relationship e023b1f2-412e-15b7-c340-c0bb0109288a
+	fromColumn: 'market analysis'.unified_id
+	toColumn: amenities.unified_id
+
+relationship 41386d4a-51fd-01e3-1c75-56976086e665
+	fromColumn: 'market analysis'.zipcode
+	toColumn: Zipcodes.zipcode
+
+relationship 6deb6d1b-b614-e423-1336-4b20a8293b89
+	fromColumn: 'sales properties'.Zip
+	toColumn: Zipcodes.zipcode
+

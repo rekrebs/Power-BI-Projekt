@@ -1,0 +1,25 @@
+table Zipcodes
+	lineageTag: 6f6432c0-0a7d-463c-a209-359b1a930bc4
+
+	column zipcode
+		lineageTag: 324943e1-b477-4857-8d8e-47e9c97df9a5
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: market analysis[zipcode]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Zipcodes = calculated
+		mode: import
+		source = ```
+				
+				DISTINCT(
+				    UNION(
+				        VALUES('market analysis'[zipcode]), 
+				        VALUES('sales properties'[Zip])
+				    )
+				)
+				```
+
+	annotation PBI_Id = 494c49a0d93a4d81b7a684ab21ad4bbd
+

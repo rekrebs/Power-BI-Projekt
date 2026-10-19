@@ -1,0 +1,9 @@
+role Alpine
+	modelPermission: read
+
+	tablePermission 'market analysis' = [zipcode] IN {"92314","92315"}
+
+	tablePermission amenities
+
+	annotation PBI_Id = de9b74dacd9e49038ca72aa2ced90e71
+

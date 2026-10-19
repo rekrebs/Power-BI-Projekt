@@ -1,0 +1,35 @@
+table 'Time Intelligence'
+	lineageTag: d7977863-0b27-4d01-8dbc-e9b3bb11bcf2
+
+	calculationGroup
+
+		calculationItem Current = SELECTEDMEASURE()
+
+		calculationItem YTD = TOTALYTD(SELECTEDMEASURE(), 'Calender'[Date])
+
+		calculationItem 'Prior Year' = CALCULATE(SELECTEDMEASURE(), SAMEPERIODLASTYEAR('Calender'[Date]))
+
+		calculationItem YoY% =
+				VAR CurrentVal = SELECTEDMEASURE()
+				VAR PYVal = CALCULATE(SELECTEDMEASURE(), SAMEPERIODLASTYEAR('Calender'[Date]))
+				RETURN
+				    DIVIDE(CurrentVal - PYVal, PYVal)
+
+	column 'Time Period'
+		dataType: string
+		lineageTag: c4b030fb-e07a-45a3-bf01-4abb6a1f310b
+		summarizeBy: none
+		sourceColumn: Name
+		sortByColumn: Ordinalzahl
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordinalzahl
+		dataType: int64
+		formatString: 0
+		lineageTag: 5a67ddbf-05b9-46d3-86ed-f98b81d4104f
+		summarizeBy: sum
+		sourceColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+

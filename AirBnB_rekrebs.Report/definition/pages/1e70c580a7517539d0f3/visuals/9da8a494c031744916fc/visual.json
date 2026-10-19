@@ -1,0 +1,145 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "9da8a494c031744916fc",
+  "position": {
+    "x": 960.74131274131287,
+    "y": 559.51218213287189,
+    "z": 3000,
+    "height": 452.76314738383707,
+    "width": 940.49580615097864,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "scatterChart",
+    "query": {
+      "queryState": {
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "market analysis"
+                    }
+                  },
+                  "Property": "zipcode"
+                }
+              },
+              "queryRef": "market analysis.zipcode",
+              "nativeQueryRef": "zipcode"
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "market analysis"
+                    }
+                  },
+                  "Property": "openness"
+                }
+              },
+              "queryRef": "market analysis.openness",
+              "nativeQueryRef": "Openness",
+              "active": true,
+              "displayName": "Openness"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "market analysis"
+                        }
+                      },
+                      "Property": "revenue"
+                    }
+                  },
+                  "Function": 1
+                }
+              },
+              "queryRef": "market analysis.revenue",
+              "nativeQueryRef": "Average Revenue",
+              "displayName": "Average Revenue"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "trend": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "displayName": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Trendlinie 1'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "legend": [
+        {
+          "properties": {
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'RightCenter'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Average Revenue by Openness'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

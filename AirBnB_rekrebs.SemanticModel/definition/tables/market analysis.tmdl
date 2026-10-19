@@ -1,0 +1,157 @@
+table 'market analysis'
+	lineageTag: ad963f38-4414-4c07-89ab-e9ee1ba6a628
+
+	column unified_id
+		dataType: string
+		isHidden
+		lineageTag: 08bbf0a6-42dd-4561-b0ab-c3f39c3c8cf0
+		summarizeBy: none
+		sourceColumn: unified_id
+
+		changedProperty = DataType
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: dateTime
+		formatString: dd.mm.yy
+		lineageTag: 5c134c1f-71ec-4db3-8936-6ad85bc54d98
+		summarizeBy: none
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column zipcode
+		dataType: string
+		lineageTag: 87bcde83-2894-444b-9846-550b794420dc
+		dataCategory: PostalCode
+		summarizeBy: none
+		sourceColumn: zipcode
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		lineageTag: dbeefa0d-7fd1-4ff1-bc06-a81b27140b9a
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column host_type
+		dataType: string
+		lineageTag: e7e5a909-90a7-47a0-9f10-cce5ea1ab948
+		summarizeBy: none
+		sourceColumn: host_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column bedrooms
+		dataType: int64
+		formatString: 0
+		lineageTag: 657e426c-8cb1-418d-87ba-d26f273d8bf1
+		summarizeBy: sum
+		sourceColumn: bedrooms
+
+		annotation SummarizationSetBy = Automatic
+
+	column bathrooms
+		dataType: int64
+		formatString: 0
+		lineageTag: ecb05f1c-b3c5-4073-919c-3df14b1c8968
+		summarizeBy: sum
+		sourceColumn: bathrooms
+
+		annotation SummarizationSetBy = Automatic
+
+	column guests
+		dataType: int64
+		formatString: 0
+		lineageTag: 8f01a38a-dc72-42a9-b97e-39c6047d718b
+		summarizeBy: sum
+		sourceColumn: guests
+
+		annotation SummarizationSetBy = Automatic
+
+	column revenue
+		dataType: double
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 19ba2bc9-8c2f-4344-a1d4-ab010bf33deb
+		summarizeBy: sum
+		sourceColumn: revenue
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column openness
+		dataType: int64
+		formatString: 0
+		lineageTag: 98393e97-0711-4841-b45b-a6f710f7cd28
+		summarizeBy: sum
+		sourceColumn: openness
+
+		annotation SummarizationSetBy = Automatic
+
+	column occupancy
+		dataType: double
+		lineageTag: ea3d49c8-dfd5-4fbf-a50c-d83ea3e5be2b
+		summarizeBy: sum
+		sourceColumn: occupancy
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'nightly rate'
+		dataType: double
+		formatString: #,0.###############\ "€";-#,0.###############\ "€";#,0.###############\ "€"
+		lineageTag: e869319a-58f3-40e8-981e-5d8bd27df74d
+		summarizeBy: sum
+		sourceColumn: nightly rate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	column 'lead time'
+		dataType: double
+		lineageTag: e0996a84-825b-4cfb-a6b4-79e86330f9d2
+		summarizeBy: sum
+		sourceColumn: lead time
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'length stay'
+		dataType: double
+		lineageTag: 214ae15f-2b13-44ed-a6ce-5b71e63789ab
+		summarizeBy: sum
+		sourceColumn: length stay
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'market analysis' = m
+		mode: import
+		source =
+				let
+				    Quelle = Table.Combine({market_analysis, market_analysis_2019}),
+				    #"Geänderter Typ" = Table.TransformColumnTypes(Quelle,{{"unified_id", Int64.Type}}),
+				    #"Gefilterte Zeilen" = Table.SelectRows(#"Geänderter Typ", each true),
+				    #"Geänderter Typ1" = Table.TransformColumnTypes(#"Gefilterte Zeilen",{{"zipcode", type text}})
+				in
+				    #"Geänderter Typ1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

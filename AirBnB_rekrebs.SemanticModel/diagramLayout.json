@@ -1,0 +1,126 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 419.91188161356467,
+        "y": 356.88253047916442
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 0,
+            "y": 422.81818181818181
+          },
+          "nodeIndex": "amenities",
+          "nodeLineageTag": "f1e05c73-f6d1-4579-ae41-c85098423616",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 1
+        },
+        {
+          "location": {
+            "x": 410.47902097902107,
+            "y": 90.498251748251761
+          },
+          "nodeIndex": "geolocation",
+          "nodeLineageTag": "c80daeaa-c6e9-40cc-bb4a-1b6e706741af",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 7
+        },
+        {
+          "location": {
+            "x": 371,
+            "y": 349.99999809265137
+          },
+          "nodeIndex": "market analysis",
+          "nodeLineageTag": "ad963f38-4414-4c07-89ab-e9ee1ba6a628",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 3
+        },
+        {
+          "location": {
+            "x": 839.79370629370624,
+            "y": 0
+          },
+          "nodeIndex": "sales properties",
+          "nodeLineageTag": "11a734b5-5e7e-455a-92c9-388e66b885df",
+          "size": {
+            "height": 300,
+            "width": 209
+          },
+          "zIndex": 2
+        },
+        {
+          "location": {
+            "x": 526.49929612166386,
+            "y": 714.1171328671328
+          },
+          "nodeIndex": "Calender",
+          "nodeLineageTag": "22ca6e9e-2961-4e6d-8827-256922c9508d",
+          "size": {
+            "height": 267,
+            "width": 234
+          },
+          "zIndex": 6
+        },
+        {
+          "location": {
+            "x": 829.81782224961933,
+            "y": 417.35664335664336
+          },
+          "nodeIndex": "Zipcodes",
+          "nodeLineageTag": "6f6432c0-0a7d-463c-a209-359b1a930bc4",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 4
+        },
+        {
+          "location": {
+            "x": 1111.3999900817871,
+            "y": 126
+          },
+          "nodeIndex": "Measure Table",
+          "nodeLineageTag": "87facc35-9405-476b-86bc-fe45f4bc45ec",
+          "size": {
+            "height": 459,
+            "width": 234
+          },
+          "zIndex": 5
+        },
+        {
+          "location": {
+            "x": 891.74577478262086,
+            "y": 692.729895104895
+          },
+          "nodeIndex": "Time Intelligence",
+          "nodeLineageTag": "d7977863-0b27-4d01-8dbc-e9b3bb11bcf2",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Alle Tabellen",
+      "zoomValue": 93.924466338259435,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Alle Tabellen",
+  "defaultDiagram": "Alle Tabellen"
+}

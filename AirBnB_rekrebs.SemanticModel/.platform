@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "AirBnB_rekrebs"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "682fde01-c61f-4978-aa1e-fc6a130122f9"
+  }
+}

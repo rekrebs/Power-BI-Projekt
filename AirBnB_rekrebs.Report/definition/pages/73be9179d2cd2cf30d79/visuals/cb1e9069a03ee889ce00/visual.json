@@ -1,0 +1,281 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "cb1e9069a03ee889ce00",
+  "position": {
+    "x": 322.094330602219,
+    "y": 411.22735290723551,
+    "z": 6000,
+    "height": 585.44189650340422,
+    "width": 777.88819466196276,
+    "tabOrder": 6000
+  },
+  "visual": {
+    "visualType": "scatterChart",
+    "query": {
+      "queryState": {
+        "Category": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "market analysis"
+                    }
+                  },
+                  "Property": "unified_id"
+                }
+              },
+              "queryRef": "market analysis.unified_id",
+              "nativeQueryRef": "unified_id",
+              "active": true
+            }
+          ]
+        },
+        "Series": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Zipcodes"
+                    }
+                  },
+                  "Property": "zipcode"
+                }
+              },
+              "queryRef": "Zipcodes.zipcode",
+              "nativeQueryRef": "zipcode"
+            }
+          ]
+        },
+        "Size": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure Table"
+                    }
+                  },
+                  "Property": "Estimated Cap Rate"
+                }
+              },
+              "queryRef": "Measure Table.Estimated Cap Rate",
+              "nativeQueryRef": "Estimated Cap Rate"
+            }
+          ]
+        },
+        "X": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Measure Table"
+                    }
+                  },
+                  "Property": "Zillow Baseline_Price"
+                }
+              },
+              "queryRef": "Measure Table.Zillow ZIP Baseline Price",
+              "nativeQueryRef": "Zillow Baseline Price",
+              "active": true,
+              "displayName": "Zillow Baseline Price"
+            }
+          ]
+        },
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "market analysis"
+                        }
+                      },
+                      "Property": "revenue"
+                    }
+                  },
+                  "Function": 1
+                }
+              },
+              "queryRef": "Sum(market analysis.revenue)",
+              "nativeQueryRef": "Average Revenue",
+              "displayName": "Average Revenue"
+            }
+          ]
+        }
+      }
+    },
+    "objects": {
+      "legend": [
+        {
+          "properties": {
+            "showGradientLegend": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "position": {
+              "expr": {
+                "Literal": {
+                  "Value": "'RightCenter'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryAxis": [
+        {
+          "properties": {
+            "labelDisplayUnits": {
+              "expr": {
+                "Literal": {
+                  "Value": "1000D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Baseline Purchase Price by Average Revenue'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Size indicates average estimated Cap Rate'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualTooltip": [
+        {
+          "properties": {
+            "section": {
+              "expr": {
+                "Literal": {
+                  "Value": "'487b1300e1622a0a4659'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "1f48dce7db6bc7119f50",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "market analysis"
+              }
+            },
+            "Property": "unified_id"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "7d2a25445b5dd1a0c4c3",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Zipcodes"
+              }
+            },
+            "Property": "zipcode"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "873903deb59f06cd4075",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure Table"
+              }
+            },
+            "Property": "Estimated Cap Rate"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "05c4b7f3bb5b7a8a31eb",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Measure Table"
+              }
+            },
+            "Property": "Zillow Baseline_Price"
+          }
+        },
+        "type": "Advanced"
+      },
+      {
+        "name": "c793b68f4c5572f1c5b1",
+        "field": {
+          "Aggregation": {
+            "Expression": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "market analysis"
+                  }
+                },
+                "Property": "revenue"
+              }
+            },
+            "Function": 1
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

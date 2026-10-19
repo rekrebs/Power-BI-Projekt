@@ -1,0 +1,60 @@
+table amenities
+	isHidden
+	lineageTag: f1e05c73-f6d1-4579-ae41-c85098423616
+
+	column hot_tub
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: ca9851a0-178c-4c91-abed-2ab81d492432
+		summarizeBy: none
+		sourceColumn: hot_tub
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column pool
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 1b15cada-a451-4a7a-b7a1-9f5a7ab9d6d2
+		summarizeBy: none
+		sourceColumn: pool
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column unified_id
+		dataType: string
+		isHidden
+		lineageTag: 72dcb401-c1ad-4b93-911f-818b459e8887
+		summarizeBy: none
+		sourceColumn: unified_id
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition amenities = m
+		mode: import
+		source =
+				let
+				    Quelle = Csv.Document(File.Contents("C:\Users\Admin\Desktop\archive (5)\amenities.csv"),[Delimiter=";", Columns=4, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"Höher gestufte Header" = Table.PromoteHeaders(Quelle, [PromoteAllScalars=true]),
+				    #"Geänderter Typ" = Table.TransformColumnTypes(#"Höher gestufte Header",{{"unified_id", type text}, {"month", type date}, {"hot_tub", Int64.Type}, {"pool", Int64.Type}}),
+				    #"Der Text nach dem Trennzeichen wurde eingefügt." = Table.AddColumn(#"Geänderter Typ", "Text nach Trennzeichen", each Text.AfterDelimiter([unified_id], "R"), type text),
+				    #"Entfernte Spalten" = Table.RemoveColumns(#"Der Text nach dem Trennzeichen wurde eingefügt.",{"unified_id"}),
+				    #"Umbenannte Spalten" = Table.RenameColumns(#"Entfernte Spalten",{{"Text nach Trennzeichen", "unified_id"}}),
+				    #"Entfernte Spalten1" = Table.RemoveColumns(#"Umbenannte Spalten",{"month"}),
+				    #"Entfernte Duplikate" = Table.Distinct(#"Entfernte Spalten1", {"unified_id"})
+				in
+				    #"Entfernte Duplikate"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

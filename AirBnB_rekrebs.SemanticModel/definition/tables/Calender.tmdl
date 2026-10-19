@@ -1,0 +1,77 @@
+table Calender
+	lineageTag: 22ca6e9e-2961-4e6d-8827-256922c9508d
+	dataCategory: Time
+
+	column Date
+		isKey
+		formatString: dd.mm.yyyy
+		lineageTag: 9b15ce0a-cc86-4ddd-9b0f-3f7dd85bc819
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column Year = year('Calender'[Date])
+		formatString: 0
+		lineageTag: 526968b3-6a07-4bbd-9770-1e2cb336b891
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter = QUARTER(Calender[Date])
+		formatString: 0
+		lineageTag: 2b013d35-f506-4aac-b88e-814ff56524d8
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month = MONTH(Calender[Date])
+		formatString: 0
+		lineageTag: bb51d5ae-233d-4355-81f9-283475ba2e63
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Spalte
+		type: calculated
+		lineageTag: b1b5ad05-337c-4e72-a926-6645cf05eba6
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
+
+	column Month_Key_YYYYMM = YEAR('Calender'[Date] + MONTH(Calender[Date]))
+		isHidden
+		formatString: 0
+		lineageTag: f9009e51-edd6-4e97-b046-0c3f836da874
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'Fiscal Hierarchy'
+		lineageTag: 87a12e92-5307-48d9-9564-ab24bb9214ad
+
+		level Year
+			lineageTag: db843943-3151-4b75-9993-49f78dc79c2c
+			column: Year
+
+		level Quarter
+			lineageTag: 0fb97ec2-c9f5-4d8f-86fb-9fd835192fe2
+			column: Quarter
+
+		level Month
+			lineageTag: 696178b1-fb38-4f81-81ec-0d25459b35a2
+			column: Month
+
+	partition Calender = calculated
+		mode: import
+		source = CALENDARAUTO()
+
+	annotation PBI_Id = addbc24858744467b12a28e7993e0fe3
+

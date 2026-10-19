@@ -1,0 +1,139 @@
+table 'sales properties'
+	lineageTag: 11a734b5-5e7e-455a-92c9-388e66b885df
+
+	column Zestimate
+		dataType: decimal
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: b1538754-d36b-452c-a4c7-27a3a582bb47
+		summarizeBy: sum
+		sourceColumn: Zestimate
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column Price
+		dataType: decimal
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 731b4250-8012-4aa9-87a9-49554292e3c6
+		summarizeBy: sum
+		sourceColumn: Price
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Rent Zestimate'
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: ee808733-1d6b-43cf-8725-805dbb13e772
+		summarizeBy: sum
+		sourceColumn: Rent Zestimate
+
+		annotation SummarizationSetBy = Automatic
+
+	column Bathrooms
+		dataType: int64
+		formatString: 0
+		lineageTag: 8b0e2d19-c078-4920-93b7-b7262ca9eb4b
+		summarizeBy: sum
+		sourceColumn: Bathrooms
+
+		annotation SummarizationSetBy = Automatic
+
+	column Bedrooms
+		dataType: int64
+		formatString: 0
+		lineageTag: fe82b1f8-2b4f-4a9a-a268-8f25bd13f5c5
+		summarizeBy: sum
+		sourceColumn: Bedrooms
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Living Area'
+		dataType: int64
+		formatString: 0
+		lineageTag: 90c3494c-7edf-4f87-9964-ce9315b44e04
+		summarizeBy: sum
+		sourceColumn: Living Area
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Home Type'
+		dataType: string
+		lineageTag: d7f60fc3-86f6-4ebd-b271-01d41675f684
+		summarizeBy: none
+		sourceColumn: Home Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Street Address'
+		dataType: string
+		lineageTag: a81d2ae2-93c7-41e6-a630-09131386beb3
+		summarizeBy: none
+		sourceColumn: Street Address
+
+		annotation SummarizationSetBy = Automatic
+
+	column City
+		dataType: string
+		lineageTag: 50e75688-48f4-40d2-9cc7-1c3b90742faf
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column Zip
+		dataType: string
+		lineageTag: 48436377-7ac4-4f28-9cb3-cc1175962628
+		dataCategory: PostalCode
+		summarizeBy: none
+		sourceColumn: Zip
+
+		annotation SummarizationSetBy = Automatic
+
+	column State
+		dataType: string
+		lineageTag: b5825235-8df4-4d71-84ef-b05355ba7dde
+		summarizeBy: none
+		sourceColumn: State
+
+		annotation SummarizationSetBy = Automatic
+
+	column statusText
+		dataType: string
+		lineageTag: 53374471-c845-4e59-9b97-e410e46a9c9b
+		summarizeBy: none
+		sourceColumn: statusText
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Zillow ID'
+		dataType: string
+		lineageTag: faf8ace7-a351-4d8e-a728-b5e4f1b9e734
+		summarizeBy: none
+		sourceColumn: Zillow ID
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'sales properties' = m
+		mode: import
+		source =
+				let
+				    Quelle = Table.Combine({sales_properties_total_zipcode_92252, sales_properties_total_zipcode_92284, sales_properties_total_zipcode_92314, sales_properties_total_zipcode_92315, sales_properties_with_pool_zipcode_92252, sales_properties_with_pool_zipcode_92284}),
+				    #"try to make a key" = Table.AddColumn(Quelle, "Zusammengeführt", each Text.Combine({Text.From([Zip], "de-DE"), Text.From([Bathrooms], "de-DE"), Text.From([Bedrooms], "de-DE")}), type text),
+				    #"name sensibly" = Table.RenameColumns(#"try to make a key",{{"Zusammengeführt", "House Key"}}),
+				    #"remove many useless columns" = Table.RemoveColumns(#"name sensibly",{"statusType", "sgapt", "isZillowOwned", "Country", "Broker Name", "Has 3D Model", "Has Image", "Has Video", "Lot Size", "Days On Zillow"}),
+				    #"change type" = Table.TransformColumnTypes(#"remove many useless columns",{{"Rent Zestimate", Currency.Type}, {"Price", Currency.Type}, {"Zestimate", Currency.Type}}),
+				    #"Der Text zwischen den Trennzeichen wurde eingefügt." = Table.AddColumn(#"change type", "Text zwischen Trennzeichen", each Text.BetweenDelimiters([Url], "/", "_", 4, 0), type text),
+				    rename = Table.RenameColumns(#"Der Text zwischen den Trennzeichen wurde eingefügt.",{{"Text zwischen Trennzeichen", "Zillow ID"}}),
+				    #"remove colomn" = Table.RemoveColumns(rename,{"Url"}),
+				    #"make unque list" = Table.Distinct(#"remove colomn", {"Zillow ID"}),
+				    #"remove exta columns (url)" = Table.RemoveColumns(#"make unque list",{"House Key"}),
+				    #"remove nulls" = Table.SelectRows(#"remove exta columns (url)", each ([Zestimate] <> null) and ([Rent Zestimate] <> null)),
+				    #"Geänderter Typ" = Table.TransformColumnTypes(#"remove nulls",{{"Zip", type text}})
+				in
+				    #"Geänderter Typ"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

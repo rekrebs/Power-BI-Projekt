@@ -1,0 +1,7 @@
+role Desert
+	modelPermission: read
+
+	tablePermission 'market analysis' = [zipcode] IN {"92284","92252"}
+
+	annotation PBI_Id = b88d64ac13554f9b8fc037b759a21288
+

@@ -1,0 +1,35 @@
+model Model
+	culture: de-DE
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: de-DE
+	valueFilterBehavior: independent
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+/// Fehler in Abfragen, die am 03.09.2026 12:09:57 geladen wurden.
+queryGroup 'Abfragefehler: 03 09 2026 12:09:57'
+
+	annotation PBI_QueryGroupOrder = 0
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["market_analysis","market_analysis_2019","sales_properties_total_zipcode_92252","sales_properties_total_zipcode_92284","sales_properties_total_zipcode_92314","sales_properties_total_zipcode_92315","sales_properties_with_pool_zipcode_92252","sales_properties_with_pool_zipcode_92284","sales properties","market analysis","geolocation","amenities","Measure Table"]
+
+annotation PBI_ProTooling = ["CalcGroup","DevMode"]
+
+ref table 'sales properties'
+ref table 'market analysis'
+ref table Calender
+ref table geolocation
+ref table amenities
+ref table Zipcodes
+ref table 'Measure Table'
+ref table 'Time Intelligence'
+
+ref role Desert
+ref role Alpine
+
+ref cultureInfo de-DE
+

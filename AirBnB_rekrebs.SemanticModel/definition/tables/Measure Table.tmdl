@@ -1,0 +1,178 @@
+table 'Measure Table'
+	lineageTag: 87facc35-9405-476b-86bc-fe45f4bc45ec
+
+	measure Avg_Airbnb_Revenue = AVERAGE('market analysis'[revenue])
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: 746bf14f-4a14-44a4-9240-724b025f4968
+
+	measure Avg_Purchase_Price = ```
+			AVERAGE('sales properties'[Price]) 
+			```
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: eae168f6-ae91-45f9-8118-d6b787081a6a
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Estimated Cap Rate' = ```
+			
+			DIVIDE(
+			    ([Avg_Airbnb_Revenue] * 12) * 0.65, 
+			    [Avg_Purchase_Price], 
+			    BLANK()
+			)
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 898a0e8b-dc43-4a69-907f-e18b7739a5a4
+
+	measure Avg_Zillow_Rent = ```
+			AVERAGE('sales properties'[Rent Zestimate]) 
+			```
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 9918e21e-9b9a-4d8a-8247-85da80885d65
+
+	measure 'Active STR' = ```
+			DISTINCTCOUNT('market analysis'[unified_id])
+			
+			```
+		formatString: 0
+		lineageTag: 7bacfb06-3213-485d-abc2-7c79a6909308
+
+	measure 'Zillow Baseline_Price' =
+			
+			VAR CurrentZip = SELECTEDVALUE('sales properties'[Zip])
+			RETURN
+			CALCULATE(
+			    AVERAGE('sales properties'[Price]),
+			    FILTER(
+			        ALL('sales properties'),
+			        'sales properties'[Zip] = CurrentZip
+			    )
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: feff4748-e60c-4fb5-8d1b-77ee3b315b1c
+
+	measure Quicknote_Bedrooms = SELECTEDVALUE('market analysis'[bedrooms], "N/A")
+		formatString: 0
+		lineageTag: 257b793b-0494-4175-a3f4-7920228a3003
+
+	measure Quicknote_Guests = SELECTEDVALUE('market analysis'[guests])
+		formatString: 0
+		lineageTag: 4b04081e-e7e3-4f18-82d9-6193e06e10b1
+
+	measure Quicknote_Pool = SELECTEDVALUE('amenities'[pool], "N/A")
+		lineageTag: b30d3bd7-ba3a-4d02-9538-836b9c36b175
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Quicknote_Host type' = SELECTEDVALUE('market analysis'[host_type], "N/A")
+		lineageTag: 2857dd12-52b9-48cd-977d-11245f92e204
+
+	measure Quicknote_Occupancy = ```
+			
+			AVERAGE('market analysis'[occupancy])
+			  
+			```
+		lineageTag: ef64ea1e-e83a-4730-8555-cf48ce874fef
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Gauge_Market_Target = ```
+			
+			CALCULATE(
+			    AVERAGE('market analysis'[occupancy]), 
+			    ALLEXCEPT('market analysis', 'market analysis'[zipcode])
+			)
+			```
+		lineageTag: 28061220-de16-4aed-af20-c174c3ae163e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Goal = 1
+		lineageTag: c0bf5b5f-62ea-4bf2-aad0-1dc3fffd2889
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Focus =
+			
+			IF(
+			    ISFILTERED('Zipcodes'[zipcode]),
+			    "Detailed zip code analysis: " & SELECTEDVALUE('Zipcodes'[zipcode]),
+			    "Global Details"
+			)
+		lineageTag: ad31d41a-7e36-4602-9d9d-ac1a746dc4aa
+
+	measure 'Revenue Last Year' =
+			
+			CALCULATE('Measure Table'[Avg_Airbnb_Revenue],
+			    SAMEPERIODLASTYEAR('Calender'[Date])
+			)
+		formatString: \$#,0.00;(\$#,0.00);\$#,0.00
+		lineageTag: f4b7d23e-9894-4260-815a-4547d5f8fbd2
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'STR Grid Density' = ```
+			
+			VAR CurrentDensity = 
+			    CALCULATE(
+			        'Measure Table'[Active STR],
+			        ALLEXCEPT(geolocation, geolocation[latitude], geolocation[longitude])
+			    )
+			RETURN
+			    IF(CurrentDensity <= 200, CurrentDensity, BLANK())
+			```
+		formatString: 0
+		isHidden
+		lineageTag: c5fc0ac0-f146-4265-b3da-8a5d137d8ebb
+
+		changedProperty = IsHidden
+
+	measure Revenue_Growth =
+			
+			DIVIDE(
+			    'Measure Table'[Avg_Airbnb_Revenue] - 'Measure Table'[Revenue Last Year],
+			     'Measure Table'[Revenue Last Year] ,
+			    0
+			)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 9357882f-135b-4cc6-ad44-e89b47006c1e
+
+	measure Seasonality = ```
+			
+			VAR CurrentMonthRevenue = 'Measure Table'[Avg_Airbnb_Revenue]
+			VAR AverageMonthRevenueThisYear = 
+			    CALCULATE(
+			        AVERAGE('market analysis'[revenue]),
+			        ALLEXCEPT(Calender, 'Calender'[Year])
+			    ) / 12
+			RETURN
+			    DIVIDE(CurrentMonthRevenue, AverageMonthRevenueThisYear, 0)
+			```
+		lineageTag: a2e666fb-9fa7-475b-9e5b-e33099687f56
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Annual_Airbnb_Revenue = ```
+			SUM('market analysis'[revenue])
+			
+			```
+		formatString: #,0.###############\ "€";-#,0.###############\ "€";#,0.###############\ "€"
+		lineageTag: 7639c909-97e4-42c3-89d9-7d84685608ca
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"de-DE"}
+
+	partition 'Measure Table' = m
+		mode: import
+		source =
+				let
+				    Quelle = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i44FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [#"Spalte ""1""" = _t]),
+				    #"Geänderter Typ" = Table.TransformColumnTypes(Quelle,{{"Spalte ""1""", type text}}),
+				    #"Entfernte Spalten" = Table.RemoveColumns(#"Geänderter Typ",{"Spalte ""1"""})
+				in
+				    #"Entfernte Spalten"
+
+	annotation PBI_ResultType = Table
+

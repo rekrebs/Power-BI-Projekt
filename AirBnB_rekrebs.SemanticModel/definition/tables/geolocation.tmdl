@@ -1,0 +1,60 @@
+table geolocation
+	lineageTag: c80daeaa-c6e9-40cc-bb4a-1b6e706741af
+
+	column unified_id
+		dataType: string
+		isHidden
+		lineageTag: 8f16380b-70c7-4859-a301-05f3879a8a1f
+		summarizeBy: none
+		sourceColumn: unified_id
+
+		changedProperty = DataType
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column latitude
+		dataType: double
+		lineageTag: 681b6b55-e085-46d3-9f78-fd9ebdf0fd36
+		dataCategory: Latitude
+		summarizeBy: none
+		sourceColumn: latitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column longitude
+		dataType: double
+		lineageTag: 8cd090fe-0ecf-4932-bd9d-9e04b93ecff5
+		dataCategory: Longitude
+		summarizeBy: none
+		sourceColumn: longitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition geolocation = m
+		mode: import
+		source =
+				let
+				    Quelle = Csv.Document(File.Contents("C:\Users\Admin\Desktop\archive (5)\geolocation.csv"),[Delimiter=";", Columns=5, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				    #"set header" = Table.PromoteHeaders(Quelle, [PromoteAllScalars=true]),
+				    #"make text" = Table.TransformColumnTypes(#"set header",{{"unified_id", type text}, {"month", type date}, {"street_name", type text}, {"latitude", type number}, {"longitude", type number}}),
+				    #"Der Text nach dem Trennzeichen wurde eingefügt." = Table.AddColumn(#"make text", "Text nach Trennzeichen", each Text.AfterDelimiter([unified_id], "R"), type text),
+				    #"Entfernte Spalten" = Table.RemoveColumns(#"Der Text nach dem Trennzeichen wurde eingefügt.",{"month", "street_name", "unified_id"}),
+				    #"Umbenannte Spalten" = Table.RenameColumns(#"Entfernte Spalten",{{"Text nach Trennzeichen", "unified_id"}}),
+				    #"Neu angeordnete Spalten" = Table.ReorderColumns(#"Umbenannte Spalten",{"unified_id", "latitude", "longitude"}),
+				    #"Geänderter Typ" = Table.TransformColumnTypes(#"Neu angeordnete Spalten",{{"unified_id", Int64.Type}}),
+				    #"Entfernte Duplikate" = Table.Distinct(#"Geänderter Typ", {"unified_id"}),
+				    #"Remove implausible values" = Table.SelectRows(#"Entfernte Duplikate", each [latitude] > -90 and [latitude] < 90),
+				    #"Removie implausible values longitude" = Table.SelectRows(#"Remove implausible values", each [longitude] >= -180 and [longitude] <= 180)
+				in
+				    #"Removie implausible values longitude"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
